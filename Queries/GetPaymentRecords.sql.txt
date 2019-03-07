@@ -1,0 +1,9 @@
+SELECT P.post_date, P.post_content,P.post_title, P.comment_status,P.post_type,P.post_status, U.user_login, U.display_name, U.user_email, PM_regular_price.meta_value AS Regular_Price,
+PM_stripe_net.meta_value AS Stripe_Net,
+PM_stripe_fee.meta_value AS Stripe_Fee
+FROM `wp_2c6779b6av_posts`P inner join wp_2c6779b6av_users U on P.post_author=U.ID
+left join wp_2c6779b6av_postmeta PM_regular_price on P.ID=PM_regular_price.post_id AND PM_regular_price .meta_key='_regular_price' 
+left join wp_2c6779b6av_postmeta PM_stripe_net on P.ID=PM_stripe_net.post_id AND PM_stripe_net.meta_key='_stripe_net'
+left join wp_2c6779b6av_postmeta PM_stripe_fee on P.ID=PM_stripe_fee.post_id AND PM_stripe_fee.meta_key='_stripe_fee'
+WHERE (P.post_status = 'wc-refunded' OR P.post_status ='wc-completed') 
+AND (P.post_type='product' OR P.post_type= 'shop-order' OR P.post_type= 'shop-order-refund')
