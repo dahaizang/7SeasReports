@@ -63,8 +63,8 @@ def main():
         col += 1
 
     for (customer_id, user_login, user_email, DateRegistered, first_name, last_name, nick_name, wechat_id) in cursor:
-        line = "\n" + customer_id + "," + user_login + "," + user_email + "," + DateRegistered\
-               + "," + first_name + "," + last_name + "," + nick_name + "," + wechat_id
+        # line = "\n" + customer_id + "," + user_login + "," + user_email + "," + DateRegistered\
+        #        + "," + first_name + "," + last_name + "," + nick_name + "," + str(wechat_id)
         rowData = [customer_id,user_login,user_email,DateRegistered,
                first_name,last_name,nick_name,wechat_id]
         col = 0

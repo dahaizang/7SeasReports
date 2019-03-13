@@ -14,7 +14,6 @@ class report:
     password = None
     host = None
     port = None
-#    table = None
     columnList = []
     columnNames = ""
     reportFile = None
@@ -31,20 +30,19 @@ class report:
             self.port = self.data['port']
             self.database = self.data['database']
 
-    def connectToDB(self): # -> object:
+    def connectToDB(self):
         if self.cnx == None:
             self.cnx = mysql.connector.connect(user = self.user,
                                       password = self.password,
                                       host = self.host,
                                       port = self.port,
                                       database = self.database)
-        # return self.cnx
 
     def getDBTableMetaData(self, table):
         self.connectToDB()
         cursor = self.cnx.cursor()
         query = "select column_name from information_schema.columns where table_name = '" + table + "' order by ordinal_position"
-        print(query)
+        # print(query)
         cursor.execute(query)
         self.columnList = []
         self.columnNames = None
@@ -62,14 +60,11 @@ class report:
         self.connectToDB()
         cursor = self.cnx.cursor()
         sqlString = "SELECT " + self.columnNames + " FROM " + self.database + "." + table
-        print(sqlString)
-
-       # query = (sqlString)
+        # print(sqlString)
 
         cursor.execute(sqlString)
 
         # Create a workbook and add a worksheet.
-#        excelFile = './Customers.xlsx'
         workbook = xlsxwriter.Workbook(excelFile)
         worksheet = workbook.add_worksheet()
 
