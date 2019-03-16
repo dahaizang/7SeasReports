@@ -9,7 +9,7 @@ VIEW `e7se41220768516`.`vwDonations` AS
         `U`.`last_name` AS `last_name`,
         `U`.`user_email` AS `user_email`,
         `U`.`nick_name` AS `nick_name`,
-        `U`.`DateRegistered` AS `DateRegistered`,
+        DATE_FORMAT(`U`.`DateRegistered`, '%Y-%m-%d') AS `DateRegistered`,
         `O`.`Product` AS `Product`,
         `O`.`PaidDate` AS `DatePaid`,
         `O`.`ItemAmount` AS `AmountPaid`,
