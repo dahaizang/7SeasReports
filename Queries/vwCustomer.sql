@@ -7,7 +7,7 @@ VIEW `e7se41220768516`.`vwCustomer` AS
         `PM`.`meta_value` AS `CustomerID`,
         `U`.`user_login` AS `user_login`,
         `U`.`user_email` AS `user_email`,
-        `U`.`user_registered` AS `DateRegistered`,
+        DATE_FORMAT(`U`.`user_registered`, '%Y-%m-%d') AS `DateRegistered`,
         `FName`.`meta_value` AS `first_name`,
         `LName`.`meta_value` AS `last_name`,
         `NName`.`meta_value` AS `nick_name`,

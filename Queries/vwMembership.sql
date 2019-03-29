@@ -23,4 +23,4 @@ VIEW `e7se41220768516`.`vwMembership` AS
         JOIN `e7se41220768516`.`vwOrderStatus` `O` ON ((`U`.`UserId` = `O`.`CustomerID`)))
     WHERE
         ((`O`.`OrderStatus` = 'wc-completed')
-            AND (`O`.`Product` = '2019年书院会员'))
+            AND (`O`.`Product` LIKE '2019年书院会员%'))
