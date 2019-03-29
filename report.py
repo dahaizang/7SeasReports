@@ -1,4 +1,4 @@
-"""base class to represent a report and methods to run a report from a MySQl view/table"""
+"""class to extract conetent from a MySQl view/table into an Excel file"""
 import datetime
 import sys
 
@@ -6,6 +6,7 @@ import mysql.connector
 import os
 import json
 import xlsxwriter
+import credentials
 
 class report:
 
@@ -22,13 +23,15 @@ class report:
     configJsonFile = 'config.json'
 
     def __init__(self):
-        with open(self.configJsonFile) as json_file:
-            self.data = json.load(json_file)
-            self.user = self.data['user']
-            self.password = self.data['password']
-            self.host = self.data['host']
-            self.port = self.data['port']
-            self.database = self.data['database']
+        self.getCredentials()
+
+    def getCredentials(self):
+        aCredential = credentials.credentials()
+        self.user = aCredential.user
+        self.password = aCredential.password
+        self.host = aCredential.host
+        self.port = aCredential.port
+        self.database = aCredential.database
 
     def connectToDB(self):
         if self.cnx == None:
@@ -88,22 +91,3 @@ class report:
         self.cnx.close()
         self.cnx = None
 
-def main():
-    aReport = report()
-
-    aReport.execute(reportName = "Customers", table = "vwCustomer", excelFile = "./Customers.xlsx")
-    aReport.execute(reportName = "Order Status", table="vwOrderStatus", excelFile = "./OrderStatus.xlsx")
-    aReport.execute(reportName = "Membership", table="vwMembership", excelFile = "./Membership.xlsx")
-    aReport.execute(reportName = "Members /w Class", table="vwMembershipAndClass", excelFile = "./MembershipAndClass.xlsx")
-    aReport.execute(reportName = "Non-Member /w Class", table="vwOnlineClassNonMember", excelFile = "./OnlineClassNonMember.xlsx")
-    aReport.execute(reportName = "Orders", table="vwOrder", excelFile = "./Orders.xlsx")
-    aReport.execute(reportName = "Order Items", table="vwOrderItem", excelFile = "./OrderItems.xlsx")
-    #aReport.execute(reportName = "Order Products", table="vwOrderProduct", excelFile = "./OrderProducts.xlsx")
-    aReport.execute(reportName = "Products", table="vwProduct", excelFile = "./Products.xlsx")
-    # aReport.execute(reportName = "Paid Members", table="vwRegisterAndPaidFor7SeasMembership", excelFile = "./RegisterAndPaidFor7SeasMembership.xlsx")
-    aReport.execute(reportName = "User Info", table="vwUserInfo", excelFile = "./UserInfo.xlsx")
-    aReport.execute(reportName = "Donations", table="vwDonations", excelFile = "./Donations.xlsx")
-
-
-if __name__ == "__main__":
-    main()
