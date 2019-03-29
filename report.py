@@ -1,4 +1,4 @@
-"""base class to represent a report and methods to run a report from a MySQl view/table"""
+"""class to extract conetent from a MySQl view/table into an Excel file"""
 import datetime
 import sys
 
@@ -6,6 +6,7 @@ import mysql.connector
 import os
 import json
 import xlsxwriter
+import credentials
 
 class report:
 
@@ -14,72 +15,78 @@ class report:
     password = None
     host = None
     port = None
-    table = None
-    columnList = None
+    columnList = []
+    columnNames = ""
     reportFile = None
+    cnx = None
 
     configJsonFile = 'config.json'
 
-    def __init__(self, table, columnList):
-        self.table = table
-        self.columnList = columnList
-        with open(self.configJsonFile) as json_file:
-            self.data = json.load(json_file)
-            self.user = data['user']
-            self.password = data['password']
-            self.host = data['host']
-            self.port = data['port']
-            self.database = data['database']
+    def __init__(self):
+        self.getCredentials()
 
-    def connectToDB() -> object:
-        cnx = mysql.connector.connect(user=user, password=password,
-                                    host=host,
-                                    port=port,
-                                    database=database)
-        return cnx
+    def getCredentials(self):
+        aCredential = credentials.credentials()
+        self.user = aCredential.user
+        self.password = aCredential.password
+        self.host = aCredential.host
+        self.port = aCredential.port
+        self.database = aCredential.database
 
+    def connectToDB(self):
+        if self.cnx == None:
+            self.cnx = mysql.connector.connect(user = self.user,
+                                      password = self.password,
+                                      host = self.host,
+                                      port = self.port,
+                                      database = self.database)
 
-    def execute():
-        table = "vwCustomer"
-        columns: str = "CustomerID,user_login,user_email,DateRegistered,first_name,last_name,nick_name,wechat_id"
-        columnList = ["CustomerID","user_login","user_email","DateRegistered","first_name","last_name","nick_name","wechat_id"]
-
-        cnx = connectToDB()
-        cursor = cnx.cursor()
-
-        query = ("SELECT " + columns +
-                " FROM " + database + "." + table)
-
+    def getDBTableMetaData(self, table):
+        self.connectToDB()
+        cursor = self.cnx.cursor()
+        query = "select column_name from information_schema.columns where table_name = '" + table + "' order by ordinal_position"
+        # print(query)
         cursor.execute(query)
+        self.columnList = []
+        self.columnNames = None
+        for columnName in cursor:
+            self.columnList.append(columnName[0])
+            if self.columnNames == None:
+                self.columnNames = columnName[0]
+            else:
+                self.columnNames += "," + columnName[0]
+
+
+    def execute(self, reportName, table, excelFile):
+        self.getDBTableMetaData(table)
+
+        self.connectToDB()
+        cursor = self.cnx.cursor()
+        sqlString = "SELECT " + self.columnNames + " FROM " + self.database + "." + table
+        # print(sqlString)
+
+        cursor.execute(sqlString)
 
         # Create a workbook and add a worksheet.
-        excelFile = './Customers.xlsx'
         workbook = xlsxwriter.Workbook(excelFile)
         worksheet = workbook.add_worksheet()
 
         row = 0
         col = 0
-        for columnHeading in columnList:
+        for columnHeading in self.columnList:
             worksheet.write(row, col, columnHeading)
             col += 1
 
-        for (customer_id, user_login, user_email, DateRegistered, first_name, last_name, nick_name, wechat_id) in cursor:
-            line = "\n" + customer_id + "," + user_login + "," + user_email + "," + DateRegistered\
-                + "," + first_name + "," + last_name + "," + nick_name + "," + wechat_id
-            rowData = [customer_id,user_login,user_email,DateRegistered,
-                first_name,last_name,nick_name,wechat_id]
+        for aRow in cursor:
             col = 0
             row += 1
-            for cell in rowData:
-                worksheet.write(row, col, cell)
+            for aCell in aRow:
+                worksheet.write(row, col, aCell)
                 col += 1
 
-        print('\nReport is saved in file:\n' + os.path.abspath(excelFile))
+        print('\n' + reportName + ' Report is saved in file:\n' + os.path.abspath(excelFile))
         workbook.close()
 
         cursor.close()
-        cnx.close()
-
-
-if __name__ == "__main__":
-    main()
+        self.cnx.close()
+        self.cnx = None
