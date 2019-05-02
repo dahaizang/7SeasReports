@@ -52,9 +52,9 @@ class report:
         for columnName in cursor:
             self.columnList.append(columnName[0])
             if self.columnNames == None:
-                self.columnNames = columnName[0]
+                self.columnNames = '"' + columnName[0] + '"'
             else:
-                self.columnNames += "," + columnName[0]
+                self.columnNames += ',"' + columnName[0] + '"'
 
 
     def execute(self, reportName, table, excelFile):
@@ -62,8 +62,9 @@ class report:
 
         self.connectToDB()
         cursor = self.cnx.cursor()
-        sqlString = "SELECT " + self.columnNames + " FROM " + self.database + "." + table
-        # print(sqlString)
+        #sqlString = "SELECT " + self.columnNames + " FROM " + self.database + "." + table
+        sqlString = "SELECT * FROM " + self.database + "." + table
+        print(sqlString)
 
         cursor.execute(sqlString)
 
