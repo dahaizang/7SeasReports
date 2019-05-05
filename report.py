@@ -64,7 +64,7 @@ class report:
         cursor = self.cnx.cursor()
         #sqlString = "SELECT " + self.columnNames + " FROM " + self.database + "." + table
         sqlString = "SELECT * FROM " + self.database + "." + table
-        print(sqlString)
+        #print(sqlString)
 
         cursor.execute(sqlString)
 
