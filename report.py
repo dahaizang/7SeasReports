@@ -56,19 +56,18 @@ class report:
             else:
                 self.columnNames += ',"' + columnName[0] + '"'
 
-
-    def execute(self, reportName, table, excelFile):
+    # export table data to an Excel file
+    def execute(self, table, excelFile):
         self.getDBTableMetaData(table)
 
         self.connectToDB()
         cursor = self.cnx.cursor()
         #sqlString = "SELECT " + self.columnNames + " FROM " + self.database + "." + table
-        sqlString = "SELECT * FROM " + self.database + "." + table
+        sqlString = "SELECT * FROM " + self.database + ".`" + table + "`"
         #print(sqlString)
 
         cursor.execute(sqlString)
 
-        # Create a workbook and add a worksheet.
         workbook = xlsxwriter.Workbook(excelFile)
         worksheet = workbook.add_worksheet()
 
@@ -85,7 +84,49 @@ class report:
                 worksheet.write(row, col, aCell)
                 col += 1
 
-        print('\n' + reportName + ' Report is saved in file:\n' + os.path.abspath(excelFile))
+        print('\n' + table + ' is saved in file:\n' + os.path.abspath(excelFile) + ' with ' + str(row) +' rows')
+        workbook.close()
+
+        cursor.close()
+        self.cnx.close()
+        self.cnx = None
+
+    # export data from tabels and pu them into sheets in the Excel workbook and save to file
+    def executeMulti(self, excelFile, tables):
+        # Create a workbook.
+        workbook = xlsxwriter.Workbook(excelFile)
+        for table in tables:
+            self.getDBTableMetaData(table)
+
+            self.connectToDB()
+            cursor = self.cnx.cursor()
+            #sqlString = "SELECT " + self.columnNames + " FROM " + self.database + "." + table
+            sqlString = "SELECT * FROM " + self.database + ".`" + table + "`"
+            #print(sqlString)
+
+            cursor.execute(sqlString)
+            sheetName = ""
+            if table.startswith('2020CM春季-'):
+                sheetName = table[9:]
+            else:
+                sheetName = table
+
+            worksheet = workbook.add_worksheet(sheetName)
+
+            row = 0
+            col = 0
+            for columnHeading in self.columnList:
+                worksheet.write(row, col, columnHeading)
+                col += 1
+
+            for aRow in cursor:
+                col = 0
+                row += 1
+                for aCell in aRow:
+                    worksheet.write(row, col, aCell)
+                    col += 1
+
+            print('\n' + table + ' with ' + str(row) + ' rows is added to sheet ' + sheetName + ' in file ' + os.path.abspath(excelFile) )
         workbook.close()
 
         cursor.close()
