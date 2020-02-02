@@ -89,7 +89,7 @@ class ExcelToMySQL :
         cnx.commit()
 
         # Print results
-        print("Data imported successfully for sheet '" + sheetName + "' in file '" + excelFile)
+        print("Data imported successfully for sheet '" + sheetName + "' in file '" + excelFile +"'; " +str(sheet.nrows-1) +" rows loaded.")
         columns = str(sheet.ncols)
         rows = str(sheet.nrows)
 
