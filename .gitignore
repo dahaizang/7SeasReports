@@ -103,7 +103,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# custom fro this project
+# custom for this project
 config.json
 credentials.py
 *.xlsx
