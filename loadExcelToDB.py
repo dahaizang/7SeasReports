@@ -27,13 +27,13 @@ class ExcelToMySQL :
         cursor = cnx.cursor()
 
         #truncate target table first
-        cursor.execute("delete from e7se41220768516.non_website_orders where school_year = '" + school_year + "'")
+        cursor.execute("delete from non_website_orders where school_year = '" + school_year + "'")
 
         # Create the INSERT INTO sql query
         query = """
         INSERT
         INTO
-        e7se41220768516.non_website_orders
+        non_website_orders
         (sequence,
          school_year,
          wechat_nickname,
@@ -96,7 +96,7 @@ class ExcelToMySQL :
 def main():
     loader = ExcelToMySQL()
     #loader.execute("non_website_orders", "四海书海2020国内会费.xlsx", "2019") #"non_website_orders.xlsx")
-    loader.execute("non_website_orders", "四海书海2020国内会费.xlsx", "2020") #"non_website_orders.xlsx")
+    loader.execute("non_website_orders", "四海书海2021国内会费.xlsx", "2021") #"non_website_orders.xlsx")
 
 
 if __name__ == "__main__":

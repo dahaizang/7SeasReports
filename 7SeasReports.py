@@ -4,7 +4,84 @@ from datetime import datetime
 
 
 def main():
-    Reports2020()
+    Reports2021Spring()
+
+def Reports2021Spring():
+    #aReport.execute(table = "2020Membership")
+    #aReport.execute(table = "2020MembershipFromChina")
+    # datetime object containing current date and time
+    now = datetime.now()
+
+    print("now =", now)
+    dt_string = now.strftime("%m%d%H%M")
+    print("date and time =", dt_string)
+
+    aReport = report.report()
+    #if not os.path.isdir("reports"):
+    #    os.mkdir("reports")
+
+    excel_filename = "2021全体会员." + dt_string + ".xlsx"
+    aReport.execute(table = "2021AllMembers", excelFile = excel_filename)
+    aReport.execute(table="vwUserInfo", excelFile = "./UserInfo.xlsx")
+    #return
+
+    tables= ["2021CMemberClass",
+        "2021CM春季-楷书班-九成宫",
+        "2021CM春季-隶书班",
+        "2021CM春季-楷书班-赵孟頫",
+        "2021CM春季-行草班-二王尺牍",
+        "2021CM春季-行草班-二王尺牍（旁听）",
+        "2021CM春季-小楷班",
+        "2021CM春季-诗词班",
+        "2021CM春季-篆刻班",
+        "2021CM春季-硬笔班",
+        "2021CM春季-软硬班-跋保母",
+        "2021CM春季-兰亭互助班",
+        "2021CM春季-多宝塔互助班",
+        "2021CM春季-书法与艺术研讨班"
+        ]
+
+    excel_filename = "2021春季各班选课." + dt_string + ".xlsx"
+    aReport.executeMulti(excelFile = excel_filename, tables=tables)
+
+
+def Reports2020Fall():
+    #aReport.execute(table = "2020Membership")
+    #aReport.execute(table = "2020MembershipFromChina")
+    # datetime object containing current date and time
+    now = datetime.now()
+
+    print("now =", now)
+    dt_string = now.strftime("%m%d%H%M")
+    print("date and time =", dt_string)
+
+    aReport = report.report()
+    #if not os.path.isdir("reports"):
+    #    os.mkdir("reports")
+
+    excel_filename = "2020全体会员." + dt_string + ".xlsx"
+    aReport.execute(table = "2020AllMembers", excelFile = excel_filename)
+    aReport.execute(table="vwUserInfo", excelFile = "./UserInfo.xlsx")
+    #aReport.execute(table="2020FMemberClass", excelFile = "./2020FMemberClass." + dt_string + ".xlsx")
+
+    tables= ["2020FMemberClass",
+        "2020FM秋季-楷书班",
+        "2020FM秋季-隶书班",
+        "2020FM秋季-楷书班-赵孟頫",
+        "2020FM秋季-集王圣教序",
+        "2020FM秋季-兰亭集序",
+        "2020FM秋季-行草班-文徵明",
+        "2020FM秋季-行草班-文徵明（旁听）",
+        "2020FM秋季-小楷班",
+        "2020FM秋季-篆书班",
+        "2020FM秋季-篆刻班",
+        "2020FM秋季-硬笔班",
+        "2020FM秋季-软硬班-跋保母",
+        "2020FM秋季-章草兴趣班"
+        ]
+
+    excel_filename = "2020秋季各班选课." + dt_string + ".xlsx"
+    aReport.executeMulti(excelFile = excel_filename, tables=tables)
 
 def Reports2020():
     #aReport.execute(table = "2020Membership")
@@ -22,6 +99,7 @@ def Reports2020():
 
     excel_filename = "2020全体会员." + dt_string + ".xlsx"
     aReport.execute(table = "2020AllMembers", excelFile = excel_filename)
+    aReport.execute(table="vwUserInfo", excelFile = "./UserInfo.xlsx")
     #aReport.execute(table="2020CMemberClass")
     tables= ["2020CMemberClass",
              "2020CM春季-楷书班-九成宫",

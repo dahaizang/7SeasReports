@@ -17,3 +17,6 @@ Content of the config.json file should contain the credentials of your MySQL dat
 
 This program only works with 7SeasCalligraphy database views. But you can modify the code to 
 have it work with your own database tables/view
+
+TO create a Windows executable, run
+pyinstaller -F 7SeasReports.py
