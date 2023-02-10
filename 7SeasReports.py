@@ -7,9 +7,7 @@ def main():
     Reports2023Spring()
 
 def Reports2023Spring():
-    #aReport.execute(table = "2020Membership")
-    #aReport.execute(table = "2020MembershipFromChina")
-    # datetime object containing current date and time
+
     now = datetime.now()
 
     print("now =", now)
