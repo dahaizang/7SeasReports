@@ -4,7 +4,51 @@ from datetime import datetime
 
 
 def main():
-    Reports2023Spring()
+    Reports2024Spring()
+
+def Reports2024Spring():
+    now = datetime.now()
+
+    print("now =", now)
+    dt_string = now.strftime("%m%d%H%M")
+    print("date and time =", dt_string)
+
+    aReport = report.report()
+    if not os.path.isdir("2024"):
+        os.mkdir("2024")
+
+    excel_filename = "2024/2024全体会员." + dt_string + ".xlsx"
+    aReport.execute(table="v2024Member", excelFile=excel_filename)
+    excel_filename = "2024/2024春季选课." + dt_string + ".xlsx"
+    aReport.execute(table="v2024SpringClass", excelFile=excel_filename)
+
+
+#    excel_filename = "2023/v2023MemberEx." + dt_string + ".xlsx"
+#    aReport.execute(table = "v2023MemberEx", excelFile = excel_filename)
+
+#    aReport.execute(table="vwUserInfo", excelFile = "./UserInfo.xlsx")
+# return
+def Reports2023Fall():
+
+    now = datetime.now()
+
+    print("now =", now)
+    dt_string = now.strftime("%m%d%H%M")
+    print("date and time =", dt_string)
+
+    aReport = report.report()
+    if not os.path.isdir("2023"):
+        os.mkdir("2023")
+
+    excel_filename = "2023/2023全体会员." + dt_string + ".xlsx"
+    aReport.execute(table = "v2023Member", excelFile = excel_filename)
+    excel_filename = "2023/2023秋季选课." + dt_string + ".xlsx"
+    aReport.execute(table = "v2023FallClass", excelFile = excel_filename)
+#    excel_filename = "2023/v2023MemberEx." + dt_string + ".xlsx"
+#    aReport.execute(table = "v2023MemberEx", excelFile = excel_filename)
+
+#    aReport.execute(table="vwUserInfo", excelFile = "./UserInfo.xlsx")
+    #return
 
 def Reports2023Spring():
 
@@ -15,13 +59,16 @@ def Reports2023Spring():
     print("date and time =", dt_string)
 
     aReport = report.report()
-    #if not os.path.isdir("reports"):
-    #    os.mkdir("reports")
+    if not os.path.isdir("2023"):
+        os.mkdir("2023")
 
-    excel_filename = "2023全体会员." + dt_string + ".xlsx"
+    excel_filename = "2023/2023全体会员." + dt_string + ".xlsx"
     aReport.execute(table = "v2023Member", excelFile = excel_filename)
-    excel_filename = "2023春季选课." + dt_string + ".xlsx"
+    excel_filename = "2023/2023春季选课." + dt_string + ".xlsx"
     aReport.execute(table = "v2023SpringClass", excelFile = excel_filename)
+#    excel_filename = "2023/v2023MemberEx." + dt_string + ".xlsx"
+#    aReport.execute(table = "v2023MemberEx", excelFile = excel_filename)
+
 #    aReport.execute(table="vwUserInfo", excelFile = "./UserInfo.xlsx")
     #return
 
