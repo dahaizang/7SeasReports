@@ -56,7 +56,7 @@ class report:
             else:
                 self.columnNames += ',"' + columnName[0] + '"'
 
-    # export table data to an Excel file
+    # export table data to an Excel file, old version
     def execute(self, table, excelFile):
         self.getDBTableMetaData(table)
 
@@ -90,6 +90,37 @@ class report:
         cursor.close()
         self.cnx.close()
         self.cnx = None
+
+    # export table data to an Excel file. This version auto sizes the columns based on content
+    def export_to_excel(self, table_name, output_file):
+        self.cnx = mysql.connector.connect(user=self.user, password=self.password,
+                                           host=self.host, port=self.port,
+                                           database=self.database)
+        cursor = self.cnx.cursor()
+        query = f"SELECT * FROM {table_name}"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        column_names = [i[0] for i in cursor.description]
+
+        workbook = xlsxwriter.Workbook(output_file)
+        worksheet = workbook.add_worksheet()
+
+        for col_num, column_name in enumerate(column_names):
+            worksheet.write(0, col_num, column_name)
+
+        for row_num, row in enumerate(rows, start=1):
+            for col_num, cell in enumerate(row):
+                worksheet.write(row_num, col_num, cell)
+
+        for col_num, column_name in enumerate(column_names):
+            max_len = max([len(str(cell)) for cell in [column_name] + [row[col_num] for row in rows]]) + 2
+            worksheet.set_column(col_num, col_num, max_len)
+
+        print('\n' + table_name + ' is saved in file:\n' + os.path.abspath(output_file) + ' with ' + str(len(rows)) +' rows')
+
+        workbook.close()
+        cursor.close()
+        self.cnx.close()
 
     # export data from tabels and pu them into sheets in the Excel workbook and save to file
     def executeMulti(self, excelFile, tables):
