@@ -17,11 +17,10 @@ def Reports2025Spring():
     aReport = report.report()
     if not os.path.isdir("2025"):
         os.mkdir("2025")
-
     excel_filename = "2025/2025全体会员." + dt_string + ".xlsx"
-    aReport.export_to_excel("v2025Member", excel_filename)
+    aReport.export_to_excel("v2025MemberShort", excel_filename)
     excel_filename = "2025/2025春季选课." + dt_string + ".xlsx"
-    aReport.export_to_excel("v2025SpringClass", excel_filename)
+    aReport.export_to_excel("v2025SpringClassShort", excel_filename)
 
 def Reports2024Fall():
     now = datetime.now()
