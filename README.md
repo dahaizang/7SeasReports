@@ -7,11 +7,11 @@ the program and run the program using Python 3
 
 Content of the credentials.py file should contain the credentials of your MySQL database.
 
-class credentials:
-    user = 'DB user id'
-    password = 'DB password'
-    host = '7seascalligraphy.org'
-    port = 3306
+class credentials:  
+    user = 'DB user id'  
+    password = 'DB password'  
+    host = '7seascalligraphy.org'  
+    port = 3306  
     database = 'database to use'
 
 
