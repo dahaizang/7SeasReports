@@ -7,16 +7,19 @@ the program and run the program using Python 3
 
 Content of the credentials.py file should contain the credentials of your MySQL database.
 
+```python
 class credentials:  
     user = 'DB user id'  
     password = 'DB password'  
     host = '7seascalligraphy.org'  
     port = 3306  
     database = 'database to use'
-
+```
 
 This program only works with 7SeasCalligraphy database views. But you can modify the code to 
 have it work with your own database tables/view
 
-TO create a Windows executable, run
+To create a Windows executable, run:
+
+
 pyinstaller -F 7SeasReports.py
