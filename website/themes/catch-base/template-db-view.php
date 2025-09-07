@@ -27,6 +27,35 @@ add_action('wp_enqueue_scripts', 'enqueue_datatables_scripts');
 <?php
 global $wpdb;
 
+echo "<br>2025 秋季选课<br>";
+
+// Query the view v2025SpringClassShort
+$results1 = $wpdb->get_results("SELECT * FROM v2025FallClassShort");
+
+// Display the results in a DataTable
+echo '<div class="table-wrapper">';
+echo '<table id="db-view-table-2" class="display nowrap" style="width:100%">';
+echo '<thead><tr>';
+foreach ($results1[0] as $column => $value) {
+    echo '<th>' . esc_html($column) . '</th>';
+}
+echo '</tr></thead>';
+echo '<tbody>';
+foreach ($results1 as $row) {
+    echo '<tr>';
+    foreach ($row as $value) {
+        echo '<td>' . esc_html($value) . '</td>';
+    }
+    echo '</tr>';
+}
+echo '</tbody>';
+echo '</table>';
+echo '</div>';
+?>
+
+<?php
+global $wpdb;
+
 // Query the view v2025MemberShort
 $results = $wpdb->get_results("SELECT * FROM v2025MemberShort");
 
@@ -52,34 +81,6 @@ echo '</table>';
 echo '</div>';
 ?>
 
-<?php
-global $wpdb;
-
-echo "<br>2025 春季选课<br>";
-
-// Query the view v2025SpringClassShort
-$results1 = $wpdb->get_results("SELECT * FROM v2025SpringClassShort");
-
-// Display the results in a DataTable
-echo '<div class="table-wrapper">';
-echo '<table id="db-view-table-2" class="display nowrap" style="width:100%">';
-echo '<thead><tr>';
-foreach ($results1[0] as $column => $value) {
-    echo '<th>' . esc_html($column) . '</th>';
-}
-echo '</tr></thead>';
-echo '<tbody>';
-foreach ($results1 as $row) {
-    echo '<tr>';
-    foreach ($row as $value) {
-        echo '<td>' . esc_html($value) . '</td>';
-    }
-    echo '</tr>';
-}
-echo '</tbody>';
-echo '</table>';
-echo '</div>';
-?>
 
 <script>
 jQuery(document).ready(function($) {

@@ -4,8 +4,23 @@ from datetime import datetime
 
 
 def main():
-    Reports2025Spring()
+    Reports2025FLL()
     #Reports2024Fall()
+
+def Reports2025FLL():
+    now = datetime.now()
+
+    print("now =", now)
+    dt_string = now.strftime("%m%d%H%M")
+    print("date and time =", dt_string)
+
+    aReport = report.report()
+    if not os.path.isdir("2025"):
+        os.mkdir("2025")
+    excel_filename = "2025/2025全体会员." + dt_string + ".xlsx"
+    aReport.export_to_excel("v2025MemberShort", excel_filename)
+    excel_filename = "2025/2025秋季选课." + dt_string + ".xlsx"
+    aReport.export_to_excel("v2025FallClassShort", excel_filename)
 
 def Reports2025Spring():
     now = datetime.now()
