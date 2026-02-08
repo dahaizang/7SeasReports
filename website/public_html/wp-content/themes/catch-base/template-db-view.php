@@ -27,10 +27,9 @@ add_action('wp_enqueue_scripts', 'enqueue_datatables_scripts');
 <?php
 global $wpdb;
 
-echo "<br>2025 秋季选课<br>";
-
-// Query the view v2025SpringClassShort
-$results1 = $wpdb->get_results("SELECT * FROM v2025FallClassShort");
+echo "<br>2026 春季选课<br>";
+// Query the view v2026SpringClassShort
+$results1 = $wpdb->get_results("SELECT * FROM v2026SpringClassShort");
 
 // Display the results in a DataTable
 echo '<div class="table-wrapper">';
@@ -54,12 +53,41 @@ echo '</div>';
 ?>
 
 <?php
+// NEW: display v2026SpringExpertClass
+global $wpdb;
+echo "<br>2026 精品班列表<br>";
+$results2 = $wpdb->get_results("SELECT * FROM v2026SpringExpertClass");
+
+// Display the results in a DataTable
+echo '<div class="table-wrapper">';
+echo '<table id="db-view-table-3" class="display nowrap" style="width:100%">';
+echo '<thead><tr>';
+if (!empty($results2)) {
+    foreach ($results2[0] as $column => $value) {
+        echo '<th>' . esc_html($column) . '</th>';
+    }
+}
+echo '</tr></thead>';
+echo '<tbody>';
+foreach ($results2 as $row) {
+    echo '<tr>';
+    foreach ($row as $value) {
+        echo '<td>' . esc_html($value) . '</td>';
+    }
+    echo '</tr>';
+}
+echo '</tbody>';
+echo '</table>';
+echo '</div>';
+?>
+
+<?php
 global $wpdb;
 
-// Query the view v2025MemberShort
-$results = $wpdb->get_results("SELECT * FROM v2025MemberShort");
+// Query the view v2026MemberShort
+$results = $wpdb->get_results("SELECT * FROM v2026MemberShort");
 
-echo "<br>2025 会员名单<br>";
+echo "<br>2026 会员名单<br>";
 // Display the results in a DataTable
 echo '<div class="table-wrapper">';
 echo '<table id="db-view-table-1" class="display nowrap" style="width:100%">';
@@ -104,6 +132,14 @@ jQuery(document).ready(function($) {
             header: true
         }
     });
+    $('#db-view-table-3').DataTable({
+        "scrollX": true,
+        "autoWidth": true,
+        "scrollY": true,
+        "scrollCollapse": true,
+        "paging": true,
+        fixedHeader: { header: true }
+    });    
 });
 </script>
 
