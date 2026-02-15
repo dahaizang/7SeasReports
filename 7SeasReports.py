@@ -23,7 +23,7 @@ def Reports2026Spring():
     excel_filename = "2026/2026春季选課." + dt_string + ".xlsx"
     aReport.export_to_excel("v2026SpringClassShort", excel_filename)
     excel_filename = "2026/2026春季精品班." + dt_string + ".xlsx"
-    aReport.export_to_excel("v2026SpringExpertClass", excel_filename)
+    aReport.export_to_excel("v2026SpringExpertClassShort", excel_filename)
     
 
 def Reports2025Fall():
