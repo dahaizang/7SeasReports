@@ -27,16 +27,16 @@ add_action('wp_enqueue_scripts', 'enqueue_datatables_scripts');
 <?php
 global $wpdb;
 
-echo "<br>2026 春季选课<br>";
+echo "<br>2026 秋季选课<br>";
 // Query the view v2026SpringClassShort — request associative arrays and guard empty results
-$results1 = $wpdb->get_results("SELECT * FROM v2026SpringClassShort", ARRAY_A);
+$results1 = $wpdb->get_results("SELECT * FROM v2026FallClassShort", ARRAY_A);
 
 // Display the results in a DataTable
 echo '<div class="table-wrapper">';
 echo '<table id="db-view-table-2" class="display nowrap" style="width:100%">';
 if ( empty($results1) ) {
     echo '<thead><tr><th>没有数据</th></tr></thead>';
-    echo '<tbody><tr><td>查询未返回任何行。</td></tr></tbody>';
+    echo '<tbody><tr><td>查询未返回任何行</td></tr></tbody>';
 } else {
     echo '<thead><tr>';
     foreach (array_keys($results1[0]) as $column) {
@@ -58,33 +58,33 @@ echo '</div>';
 ?>
 
 <?php
-// NEW: display v2026SpringExpertClass
-global $wpdb;
-echo "<br>2026 精品班列表<br>";
-$results2 = $wpdb->get_results("SELECT * FROM v2026SpringExpertClassShort");
-
-// Display the results in a DataTable
-echo '<div class="table-wrapper">';
-echo '<table id="db-view-table-3" class="display nowrap" style="width:100%">';
-echo '<thead><tr>';
-if (!empty($results2)) {
-    foreach ($results2[0] as $column => $value) {
-        echo '<th>' . esc_html($column) . '</th>';
-    }
-}
-echo '</tr></thead>';
-echo '<tbody>';
-foreach ($results2 as $row) {
-    echo '<tr>';
-    foreach ($row as $value) {
-        echo '<td>' . esc_html($value) . '</td>';
-    }
-    echo '</tr>';
-}
-echo '</tbody>';
-echo '</table>';
-echo '</div>';
-?>
+// // NEW: display v2026SpringExpertClass
+// global $wpdb;
+// echo "<br>2026 精品班列表<br>";
+// $results2 = $wpdb->get_results("SELECT * FROM v2026SpringExpertClassShort");
+//
+// // Display the results in a DataTable
+// echo '<div class="table-wrapper">';
+// echo '<table id="db-view-table-3" class="display nowrap" style="width:100%">';
+// echo '<thead><tr>';
+// if (!empty($results2)) {
+//     foreach ($results2[0] as $column => $value) {
+//         echo '<th>' . esc_html($column) . '</th>';
+//     }
+// }
+// echo '</tr></thead>';
+// echo '<tbody>';
+// foreach ($results2 as $row) {
+//     echo '<tr>';
+//     foreach ($row as $value) {
+//         echo '<td>' . esc_html($value) . '</td>';
+//     }
+//     echo '</tr>';
+// }
+// echo '</tbody>';
+// echo '</table>';
+// echo '</div>';
+ ?>
 
 <?php
 global $wpdb;
@@ -137,14 +137,14 @@ jQuery(document).ready(function($) {
             header: true
         }
     });
-    $('#db-view-table-3').DataTable({
-        "scrollX": true,
-        "autoWidth": true,
-        "scrollY": true,
-        "scrollCollapse": true,
-        "paging": true,
-        fixedHeader: { header: true }
-    });    
+//     $('#db-view-table-3').DataTable({
+//         "scrollX": true,
+//         "autoWidth": true,
+//         "scrollY": true,
+//         "scrollCollapse": true,
+//         "paging": true,
+//         fixedHeader: { header: true }
+//     });
 });
 </script>
 
