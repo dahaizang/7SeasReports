@@ -28,15 +28,18 @@ add_action('wp_enqueue_scripts', 'enqueue_datatables_scripts');
 global $wpdb;
 
 echo "<br>2026 秋季选课<br>";
-// Query the view v2026SpringClassShort — request associative arrays and guard empty results
+$wpdb->last_error = '';
 $results1 = $wpdb->get_results("SELECT * FROM v2026FallClassShort", ARRAY_A);
 
 // Display the results in a DataTable
 echo '<div class="table-wrapper">';
 echo '<table id="db-view-table-2" class="display nowrap" style="width:100%">';
-if ( empty($results1) ) {
+if ( ! empty( $wpdb->last_error ) ) {
+    echo '<thead><tr><th>查询错误</th></tr></thead>';
+    echo '<tbody><tr><td>' . esc_html( $wpdb->last_error ) . '</td></tr></tbody>';
+} elseif ( empty($results1) ) {
     echo '<thead><tr><th>没有数据</th></tr></thead>';
-    echo '<tbody><tr><td>查询未返回任何行</td></tr></tbody>';
+    echo '<tbody><tr><td>视图 v2026FallClassShort 目前没有返回任何行，或数据库中不存在该视图。</td></tr></tbody>';
 } else {
     echo '<thead><tr>';
     foreach (array_keys($results1[0]) as $column) {
@@ -89,27 +92,35 @@ echo '</div>';
 <?php
 global $wpdb;
 
-// Query the view v2026MemberShort
-$results = $wpdb->get_results("SELECT * FROM v2026MemberShort");
+$wpdb->last_error = '';
+$results = $wpdb->get_results("SELECT * FROM v2026MemberShort", ARRAY_A);
 
 echo "<br>2026 会员名单<br>";
 // Display the results in a DataTable
 echo '<div class="table-wrapper">';
 echo '<table id="db-view-table-1" class="display nowrap" style="width:100%">';
-echo '<thead><tr>';
-foreach ($results[0] as $column => $value) {
-    echo '<th>' . esc_html($column) . '</th>';
-}
-echo '</tr></thead>';
-echo '<tbody>';
-foreach ($results as $row) {
-    echo '<tr>';
-    foreach ($row as $value) {
-        echo '<td>' . esc_html($value) . '</td>';
+if ( ! empty( $wpdb->last_error ) ) {
+    echo '<thead><tr><th>查询错误</th></tr></thead>';
+    echo '<tbody><tr><td>' . esc_html( $wpdb->last_error ) . '</td></tr></tbody>';
+} elseif ( empty( $results ) ) {
+    echo '<thead><tr><th>没有数据</th></tr></thead>';
+    echo '<tbody><tr><td>视图 v2026MemberShort 目前没有返回任何行。</td></tr></tbody>';
+} else {
+    echo '<thead><tr>';
+    foreach (array_keys($results[0]) as $column) {
+        echo '<th>' . esc_html($column) . '</th>';
     }
-    echo '</tr>';
+    echo '</tr></thead>';
+    echo '<tbody>';
+    foreach ($results as $row) {
+        echo '<tr>';
+        foreach ($row as $value) {
+            echo '<td>' . esc_html($value) . '</td>';
+        }
+        echo '</tr>';
+    }
+    echo '</tbody>';
 }
-echo '</tbody>';
 echo '</table>';
 echo '</div>';
 ?>
